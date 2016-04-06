@@ -1,1 +1,13 @@
 .DS_Store
+
+// ignore final setups/compositions and unfinished examples for now.
+src/inc/MacAddresses.original
+src/moscow16
+src/resonate15
+src/resonate16
+examples/Introduction/BasicMovementSetup
+examples/Introduction/SequencerMovementSetup
+examples/Setups
+
+// who wrote this file and what does it do?
+PodHalfBeat.h
