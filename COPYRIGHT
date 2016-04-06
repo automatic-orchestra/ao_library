@@ -1,0 +1,9 @@
+Initial implementation of the CFO Synthesizer and MIDI files:
+Jakob Bak <jakob.bak@gmail.com>
+
+Some modifications to the CFO files and implementation of the framework for Automatic Orchestra:
+David Beermann <mail@davidbeermann.com>
+Dennis P. Paul <dennis.paul@hfk-bremen.de>
+
+A full list of all contributors can be found here:
+https://github.com/automatic-orchestra/library-for-arduino/graphs/contributors
