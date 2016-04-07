@@ -23,7 +23,6 @@
 #include "CFOMidi.h"
 #include "CFOSynthesizer.h"
 #include "MacAddress.h"
-#include "Arrangement.h"
 #include "MovementNull.h"
 #include "Scale.h"
 
@@ -38,8 +37,7 @@ AutomaticOrchestra::AutomaticOrchestra(Clock* pClock, Playlist* pPlaylist) :
 mClock(pClock), mPlaylist(pPlaylist), mCurrentMovement(0),
 mChangeMovementFromControlMessage(Movement::MOVEMENT_DO_NOT_CHANGE) {
     mPlaylist->setParent(this);
-    mMacAddress = MacAddress::get();
-    getIDFromMacAddress(&mMacAddress, &mMidiChannel, &mKlockMeister);
+    setupDeviceParameters(MacAddress::get());
 }
 
 // ////////////////////////////////////////
@@ -212,22 +210,5 @@ void AutomaticOrchestra::changeMovement(int pMovementID) {
 void AutomaticOrchestra::killNotes() {
     for (int i = 0; i < 127; i++) {
         Music.noteOff(i);
-    }
-}
-
-void AutomaticOrchestra::getIDFromMacAddress(String* pMacAddress, int* pMidiID, bool* pKlockMeister) {
-    // select the default arrangement setup.
-    Arrangement::getInstance().init();
-
-    // parse member array for matching configuration based on the device's MAC address
-    orchestra_member_t* mList = Arrangement::getInstance().getList();
-    if (mList != NULL) {
-        for (unsigned int i = 0; i < Arrangement::getInstance().getSize(); i++) {
-            Serial.println(mList[i].macAddress);
-            if (pMacAddress->equals(mList[i].macAddress)) {
-                *pMidiID = mList[i].midiChannel;
-                *pKlockMeister = mList[i].klockMeister;
-            }
-        }
     }
 }

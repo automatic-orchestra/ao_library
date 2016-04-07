@@ -20,13 +20,14 @@
 #define AUTOMATICORCHESTRA_H
 
 #include <Arduino.h>
+#include "Orchestra.h"
 
 class Movement;
 class Clock;
 class Playlist;
 
 //TODO add global volume control!!!!
-class AutomaticOrchestra {
+class AutomaticOrchestra : public Orchestra {
 public:
     AutomaticOrchestra(Clock* pClock, Playlist* pPlaylist);
     void start();
@@ -81,7 +82,6 @@ public:
 
 private:
 
-    void getIDFromMacAddress(String* pMacAddress, int * pMidiID, bool * pKlockMeister);
     Movement* getMovement(int pMovementID);
 
     void setupLED() {
@@ -89,9 +89,6 @@ private:
         turnOnLED();
     }
 
-    String mMacAddress;
-    int mMidiChannel;
-    bool mKlockMeister;
     Clock* mClock;
     Playlist* mPlaylist;
     Movement* mCurrentMovement;
