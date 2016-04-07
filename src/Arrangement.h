@@ -32,19 +32,20 @@ struct orchestra_member_t {
  * Code derived from here:
  * http://stackoverflow.com/questions/270947/can-any-one-provide-me-a-sample-of-singleton-in-c/271104#271104
  */
-class Arrangement {
+class Arrangement
+{
 private:
-
-    Arrangement() {
-    };
+    Arrangement() {};
     Arrangement(Arrangement const&); // Don't Implement.
     void operator=(Arrangement const&); // Don't implement	
     orchestra_member_t* mList;
+    const uint8_t DEFAULT_SIZE = 12;
+    uint8_t mSize = 0;
 public:
-    static const unsigned int MEMBER_COUNT = 12;
     static Arrangement& getInstance();
-    void setupDefault();
+    void init(uint8_t pSize = 0);
     orchestra_member_t* getList();
+    uint8_t getSize();
 };
 
 #endif //ARRANGEMENT_H

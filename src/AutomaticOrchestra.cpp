@@ -217,12 +217,12 @@ void AutomaticOrchestra::killNotes() {
 
 void AutomaticOrchestra::getIDFromMacAddress(String* pMacAddress, int* pMidiID, bool* pKlockMeister) {
     // select the default arrangement setup.
-    Arrangement::getInstance().setupDefault();
+    Arrangement::getInstance().init();
 
     // parse member array for matching configuration based on the device's MAC address
     orchestra_member_t* mList = Arrangement::getInstance().getList();
     if (mList != NULL) {
-        for (unsigned int i = 0; i < Arrangement::MEMBER_COUNT; i++) {
+        for (unsigned int i = 0; i < Arrangement::getInstance().getSize(); i++) {
             Serial.println(mList[i].macAddress);
             if (pMacAddress->equals(mList[i].macAddress)) {
                 *pMidiID = mList[i].midiChannel;

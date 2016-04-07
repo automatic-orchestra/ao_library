@@ -18,23 +18,31 @@
 
 #include "Arrangement.h"
 
+
 // Code for singleton derived from here:
 // http://stackoverflow.com/questions/270947/can-any-one-provide-me-a-sample-of-singleton-in-c/271104#271104
-
 Arrangement& Arrangement::getInstance() {
+    // create static instance of Arrangement
     static Arrangement instance;
     return instance;
 }
 
-void Arrangement::setupDefault() {
+
+void Arrangement::init(uint8_t pSize) {
+    if(pSize == 0){
+        mSize = DEFAULT_SIZE;
+    } else {
+        mSize = pSize;
+    }
+
     String MacAddresses[] = {
 // CREATE THIS FILE FROM MacAddresses.original IN THE FOLDER inc/
 #include "inc/MacAddresses.inc"
     };
 
-    mList = new orchestra_member_t[MEMBER_COUNT];
+    mList = new orchestra_member_t[mSize];
     // MAC Address, MIDI Channel, Klockmeister
-    for(unsigned int i = 0; i < MEMBER_COUNT; i++) {
+    for(unsigned int i = 0; i < mSize; i++) {
         mList[i] = {
             MacAddresses[i], // MAC Address
             i, // MIDI Channel:  starting at 0
@@ -43,6 +51,7 @@ void Arrangement::setupDefault() {
     }
 }
 
+
 orchestra_member_t* Arrangement::getList() {
     if (mList == NULL) {
         Serial.println("Arrangement::getList() => execute a setup method before retrieving the list");
@@ -50,4 +59,8 @@ orchestra_member_t* Arrangement::getList() {
     } else {
         return mList;
     }
+}
+
+uint8_t Arrangement::getSize() {
+    return mSize;
 }
