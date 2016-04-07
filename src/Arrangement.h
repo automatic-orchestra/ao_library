@@ -44,6 +44,7 @@ private:
 public:
     static Arrangement& getInstance();
     void init(uint8_t pSize = 0);
+    void init(String macAddresses[], uint8_t pSize);
     orchestra_member_t* getList();
     uint8_t getSize();
 };

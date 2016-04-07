@@ -29,22 +29,32 @@ Arrangement& Arrangement::getInstance() {
 
 
 void Arrangement::init(uint8_t pSize) {
+    // load default mac addresses
+    String macAddresses[] = {
+        #include "inc/MacAddresses.inc"
+    };
+
+    init(macAddresses, pSize);
+}
+
+
+void Arrangement::init(String macAddresses[], uint8_t pSize) {
+    // only initialize once!
+    if(mSize != 0) {
+        return;
+    }
+
     if(pSize == 0){
         mSize = DEFAULT_SIZE;
     } else {
         mSize = pSize;
     }
 
-    String MacAddresses[] = {
-// CREATE THIS FILE FROM MacAddresses.original IN THE FOLDER inc/
-#include "inc/MacAddresses.inc"
-    };
-
     mList = new orchestra_member_t[mSize];
     // MAC Address, MIDI Channel, Klockmeister
     for(unsigned int i = 0; i < mSize; i++) {
         mList[i] = {
-            MacAddresses[i], // MAC Address
+            macAddresses[i], // MAC Address
             i, // MIDI Channel:  starting at 0
             i == 0 // Klockmeister: always the first mac address is true, all others are false!!!
         };
