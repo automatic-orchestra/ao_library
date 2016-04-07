@@ -111,14 +111,6 @@ void AutomaticOrchestra::sendShift(int pValue) {
     Midi.sendController(getChannel(), AO_CONTROL_MESSAGE_SHIFT, pValue);
 }
 
-String AutomaticOrchestra::getMacAddress() {
-    return mMacAddress;
-}
-
-bool AutomaticOrchestra::isKlockMeister() {
-    return mKlockMeister;
-}
-
 void AutomaticOrchestra::onNoteOn(byte channel, byte note, byte velocity) {
     if (mCurrentMovement) {
         mCurrentMovement->onNoteOn(channel, note, velocity);

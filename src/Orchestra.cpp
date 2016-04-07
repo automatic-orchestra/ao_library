@@ -28,6 +28,22 @@ Orchestra::~Orchestra() {
 }
 
 
+
+String Orchestra::getMacAddress() {
+    return mMacAddress;
+}
+
+
+int Orchestra::getChannel() {
+    return mMidiChannel;
+}
+
+
+bool Orchestra::isKlockMeister() {
+    return mKlockMeister;
+}
+
+
 void Orchestra::setupDeviceParameters(String pMacAddress) {
     // save mac address
     mMacAddress = pMacAddress;

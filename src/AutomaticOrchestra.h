@@ -32,12 +32,6 @@ public:
     AutomaticOrchestra(Clock* pClock, Playlist* pPlaylist);
     void start();
     void loop();
-    String getMacAddress();
-    bool isKlockMeister();
-
-    int getChannel() {
-        return mMidiChannel;
-    }
 
     Clock* getClock() {
         return mClock;

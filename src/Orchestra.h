@@ -27,6 +27,9 @@ class Orchestra
 public:
   Orchestra();
   ~Orchestra();
+  String getMacAddress();
+  int getChannel();
+  bool isKlockMeister();
 protected:
   void setupDeviceParameters(String pMacAddress);
   String mMacAddress;
