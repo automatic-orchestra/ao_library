@@ -19,7 +19,7 @@
 #ifndef POD_H
 #define	POD_H
 
-#include "AutomaticOrchestra.h"
+#include "Orchestra.h"
 #include "CFOMidi.h"
 #include "CFOSynthesizer.h"
 #include "MidiNote.h"
@@ -27,7 +27,7 @@
 class Pod {
 public:
 
-    Pod(AutomaticOrchestra* pParent) { mParent = pParent; }
+    Pod(Orchestra* pParent) { mParent = pParent; }
     virtual ~Pod() {}
 
     virtual void receiveNoteOn(byte channel, byte note, byte velocity);
@@ -52,8 +52,8 @@ protected:
     void playNoteOff();
     void applyPresets(const uint8_t pProgramPresets[]);
 
-    AutomaticOrchestra* getParent() { return mParent; }
-    AutomaticOrchestra* mParent;
+    Orchestra* getParent() { return mParent; }
+    Orchestra* mParent;
 };
 
 #endif //POD_H

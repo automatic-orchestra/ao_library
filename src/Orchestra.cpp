@@ -17,16 +17,57 @@
 */
 
 #include "Orchestra.h"
+#include "Movement.h"
+#include "Playlist.h"
 #include "Arrangement.h"
+#include "OrchestraMessages.h"
+
+#define LED_PIN 13
 
 
 Orchestra::Orchestra() {
+    setupLED();
+    // init variable here, since Movement is imported only in the implementation class.
+    mChangeMovementFromControlMessage = Movement::MOVEMENT_DO_NOT_CHANGE;
 }
 
 
 Orchestra::~Orchestra() {
+    delete mPlaylist;
+    mPlaylist = nullptr;
+    delete mCurrentMovement;
+    mCurrentMovement = nullptr;
 }
 
+
+void Orchestra::setupPlaylist(Playlist* pPlaylist) {
+    mPlaylist = pPlaylist;
+    mPlaylist->setParent(this);
+}
+
+
+void Orchestra::start() {
+    if(mPlaylist == nullptr){
+        Serial.println("(O) -> start() - ERROR: call setupPlaylist() before calling start()!");
+        return;
+    }
+}
+
+
+void Orchestra::update() {
+    // change movement from control message
+    if (mChangeMovementFromControlMessage != Movement::MOVEMENT_DO_NOT_CHANGE) {
+        changeMovement(mChangeMovementFromControlMessage);
+        mChangeMovementFromControlMessage = Movement::MOVEMENT_DO_NOT_CHANGE;
+    }
+    // set LED state
+    if (mLEDState > 0) {
+        mLEDState--;
+        if (mLEDState <= 0) {
+            turnOffLED();
+        }
+    }
+}
 
 
 String Orchestra::getMacAddress() {
@@ -56,6 +97,24 @@ void Orchestra::printConfiguration() {
 }
 
 
+void Orchestra::turnOnLED() {
+    digitalWrite(LED_PIN, HIGH);
+    mLEDState = LED_DURATION_LOOP_CYCLES;
+}
+
+
+void Orchestra::turnOffLED() {
+    digitalWrite(LED_PIN, LOW);
+    mLEDState = 0;
+}
+
+
+void Orchestra::setupLED() {
+    pinMode(LED_PIN, OUTPUT);
+    turnOnLED();
+}
+
+
 void Orchestra::onNoteOn(byte channel, byte note, byte velocity) {
 }
 
@@ -65,6 +124,17 @@ void Orchestra::onNoteOff(byte channel, byte note, byte velocity) {
 
 
 void Orchestra::onControlChange(byte channel, byte control, byte value) {
+    // evaluate incoming message
+    switch (control) {
+        case OrchestraMessages::CHANGE_MOVEMENT:
+            mChangeMovementFromControlMessage = value;
+            Serial.printf("(O) -> onControlChange(): schedule movement change to %i.\n", mChangeMovementFromControlMessage);
+            break;
+    }
+    // forward messages to movement
+    if (mCurrentMovement) {
+        mCurrentMovement->onControlChange(channel, control, value);
+    }
 }
 
 
@@ -73,6 +143,39 @@ void Orchestra::onClockTick() {
 
 
 void Orchestra::onClockStart() {
+}
+
+
+void Orchestra::sendChangeMovement(int pMovementID) {
+    Midi.sendController(getChannel(), OrchestraMessages::CHANGE_MOVEMENT, pMovementID);
+}
+
+
+Movement* Orchestra::getMovement(int pMovementID) {
+    return mPlaylist->getMovement(pMovementID);
+}
+
+
+void Orchestra::changeMovement(int pMovementID) {
+    Serial.printf("(O) -> changeMovement(): change to movement %i\n", pMovementID);
+
+    // https://en.wikipedia.org/wiki/Delete_(C%2B%2B)
+    if (mCurrentMovement) {
+        Serial.print("(O) -> changeMovement(): deleting movement: ");
+        Serial.println(mCurrentMovement->getName());
+        delete mCurrentMovement;
+        mCurrentMovement = nullptr;
+    }
+
+    mCurrentMovement = getMovement(pMovementID);
+    if (mCurrentMovement) {
+        Serial.print("(O) -> changeMovement(): created movement: ");
+        Serial.print(mCurrentMovement->getName());
+        Serial.print("  --  at address: 0x");
+        Serial.println((int) (mCurrentMovement), HEX);
+    } else {
+        Serial.printf("(O) -> changeMovement(): ERROR: no movement created! Check playlist for logic related to movement id %i\n.", pMovementID);
+    }
 }
 
 

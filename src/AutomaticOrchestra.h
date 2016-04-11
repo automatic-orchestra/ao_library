@@ -27,16 +27,16 @@ class Clock;
 class Playlist;
 
 //TODO add global volume control!!!!
-class AutomaticOrchestra : public Orchestra {
+class AutomaticOrchestra : public Orchestra
+{
 public:
     AutomaticOrchestra(Clock* pClock, Playlist* pPlaylist);
-    void start();
     void loop();
 
     Clock* getClock() {
         return mClock;
     }
-    void changeMovement(int pMovementID);
+
     /* receive events from network */
     void onNoteOn(byte channel, byte note, byte velocity);
     void onNoteOff(byte channel, byte note, byte velocity);
@@ -54,16 +54,6 @@ public:
 
     void killNotes();
 
-    void turnOnLED() {
-        digitalWrite(13, HIGH);
-        mLEDState = LED_DURATION_LOOP_CYCLES;
-    }
-
-    void turnOffLED() {
-        digitalWrite(13, LOW);
-        mLEDState = 0;
-    }
-
     const static int AO_CONTROL_MESSAGES = 40;
     const static int AO_CONTROL_MESSAGE_CHANGE_MOVEMENT = AO_CONTROL_MESSAGES + 0;
     const static int AO_CONTROL_MESSAGE_CHANGE_BPM = AO_CONTROL_MESSAGES + 1;
@@ -74,25 +64,12 @@ public:
     const static int AO_CONTROL_MESSAGE_SHIFT = AO_CONTROL_MESSAGES + 6;
     const static int AO_CONTROL_MESSAGES_MAX = 69;
 
+protected:
+    void changeMovement(int pMovementID);
+
 private:
-
-    Movement* getMovement(int pMovementID);
-
-    void setupLED() {
-        pinMode(13, OUTPUT);
-        turnOnLED();
-    }
-
     Clock* mClock;
-    Playlist* mPlaylist;
-    Movement* mCurrentMovement;
-
-    const static int LED_DURATION_LOOP_CYCLES = 100;
-    int mLEDState = 0;
-
-    int mChangeMovementFromControlMessage;
-
-    bool mWaitingFirstBest = true;
+    bool mWaitingFirstBeat = true;
 };
 
 #endif //AUTOMATICORCHESTRA_H

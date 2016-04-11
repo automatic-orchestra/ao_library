@@ -25,15 +25,12 @@
 class MovementNull : public Movement {
 public:
 
-    MovementNull(AutomaticOrchestra* pParent, int pNextMovement) : Movement(pParent, pNextMovement) {
+    MovementNull(Orchestra* pParent, int pNextMovement) : Movement(pParent, pNextMovement) {
         mPod = new Pod(pParent);
     }
 
     virtual ~MovementNull() {
         delete mPod;
-    }
-
-    void loop() {
     }
 
     Pod* getPod() {

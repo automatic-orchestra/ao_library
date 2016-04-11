@@ -19,7 +19,7 @@
 #include "Movement.h"
 
 
-Movement::Movement(AutomaticOrchestra* pParent, int pNextMovement)
+Movement::Movement(Orchestra* pParent, int pNextMovement)
 : mChannel(pParent->getChannel()) {
     mParent = pParent;
     mNextMovement = pNextMovement;

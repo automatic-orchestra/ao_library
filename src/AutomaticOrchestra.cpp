@@ -33,10 +33,10 @@
 // Constructors
 // ////////////////////////////////////////
 
-AutomaticOrchestra::AutomaticOrchestra(Clock* pClock, Playlist* pPlaylist) :
-mClock(pClock), mPlaylist(pPlaylist), mCurrentMovement(0),
-mChangeMovementFromControlMessage(Movement::MOVEMENT_DO_NOT_CHANGE) {
-    mPlaylist->setParent(this);
+AutomaticOrchestra::AutomaticOrchestra(Clock* pClock, Playlist* pPlaylist) : Orchestra(), mClock(pClock) {
+    mCurrentMovement = 0;
+    mChangeMovementFromControlMessage = Movement::MOVEMENT_DO_NOT_CHANGE;
+    setupPlaylist(pPlaylist);
     setupDeviceParameters(MacAddress::get());
 }
 
@@ -44,12 +44,6 @@ mChangeMovementFromControlMessage(Movement::MOVEMENT_DO_NOT_CHANGE) {
 // Public Methods
 // ////////////////////////////////////////
 
-void AutomaticOrchestra::start() {
-    // DO NOT CHANGE THE INITAL MOVEMENT HERE!!!
-    // Set it in the getMovement() method when passing in the secodn parameter to movement null.
-    sendChangeMovement(Movement::MOVEMENT_NULL);
-    setupLED();
-}
 
 void AutomaticOrchestra::loop() {
     if (mCurrentMovement) {
@@ -67,7 +61,7 @@ void AutomaticOrchestra::loop() {
         mChangeMovementFromControlMessage = Movement::MOVEMENT_DO_NOT_CHANGE;
     }
     /* turn off LED if necessary */
-    if (mWaitingFirstBest) {
+    if (mWaitingFirstBeat) {
         turnOnLED();
     } else {
         if (mLEDState > 0) {
@@ -155,7 +149,7 @@ void AutomaticOrchestra::onClockBarChange(unsigned long bar) {
 }
 
 void AutomaticOrchestra::onClockBeatChange(unsigned long beat) {
-    mWaitingFirstBest = false;
+    mWaitingFirstBeat = false;
     if (mCurrentMovement) {
         mCurrentMovement->onClockBeatChange(beat);
     }
@@ -166,21 +160,9 @@ void AutomaticOrchestra::onClockBeatChange(unsigned long beat) {
 // Private Methods
 // ////////////////////////////////////////
 
-Movement* AutomaticOrchestra::getMovement(int pMovementID) {
-    return mPlaylist->getMovement(pMovementID);
-}
 
 void AutomaticOrchestra::changeMovement(int pMovementID) {
-    Serial.printf("### (AO) change to movement : %i\n", pMovementID);
-
-    // https://en.wikipedia.org/wiki/Delete_(C%2B%2B)
-    if (mCurrentMovement) {
-        Serial.print("### (AO) deleting movement: ");
-        Serial.println(mCurrentMovement->getName());
-        delete mCurrentMovement;
-        mCurrentMovement = nullptr;
-    }
-
+    // stop all synth playback
     killNotes();
 
     // restart clock with each new movement
@@ -188,16 +170,10 @@ void AutomaticOrchestra::changeMovement(int pMovementID) {
         mClock->reset();
     }
 
-    mCurrentMovement = getMovement(pMovementID);
-    if (mCurrentMovement) {
-        Serial.print("### (AO) created movement : ");
-        Serial.print(mCurrentMovement->getName());
-        Serial.print("  ---  at address: 0x");
-        Serial.println((int) (mCurrentMovement), HEX);
-    } else {
-        Serial.println("ERROR: no movement created! Check getMovement() method for matching case statement.");
-    }
+    // call parent base class method
+    Orchestra::changeMovement(pMovementID);
 }
+
 
 void AutomaticOrchestra::killNotes() {
     for (int i = 0; i < 127; i++) {

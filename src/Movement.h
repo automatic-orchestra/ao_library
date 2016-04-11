@@ -19,7 +19,7 @@
 #ifndef MOVEMENT_H
 #define	MOVEMENT_H
 
-#include "AutomaticOrchestra.h"
+#include "Orchestra.h"
 #include "Pod.h"
 
 //#define M_DEBUG
@@ -38,8 +38,8 @@ public:
     const static int DEFAULT_MOVEMENT_DURATION = 128;
 #endif
 
-    //TODO remove necessaity to pass in id of next movement and store this in playlist.
-    Movement(AutomaticOrchestra* pParent, int pNextMovement);
+    //TODO remove necessity to pass in id of next movement and store this in playlist.
+    Movement(Orchestra* pParent, int pNextMovement);
     virtual ~Movement() {}
 
     virtual Pod* getPod() = 0;
@@ -58,14 +58,14 @@ public:
 protected:
 
     int channel() { return mChannel; }
-    AutomaticOrchestra* parent() { return getParent(); }
-    AutomaticOrchestra* getParent() { return mParent; }
+    Orchestra* parent() { return getParent(); }
+    Orchestra* getParent() { return mParent; }
     int getNextMovement() { return mNextMovement; }
     void setMovementDuration(unsigned int pDurationInBars) { mMovementDuration = pDurationInBars; }
     unsigned int getMovementDuration() { return mMovementDuration; }
 
 private:
-    AutomaticOrchestra* mParent;
+    Orchestra* mParent;
     int mChannel;
     int mNextMovement = 0;
     unsigned int mMovementDuration = DEFAULT_MOVEMENT_DURATION;

@@ -21,28 +21,53 @@
 
 #include <Arduino.h>
 
+class Movement;
+class Playlist;
 
-class Orchestra
-{
+
+class Orchestra {
+
 public:
   Orchestra();
   ~Orchestra();
+  // setup, start and update
+  void setupPlaylist(Playlist* pPlaylist);
+  void start();
+  void update();
   // configuration methods
   String getMacAddress();
   int getChannel();
   bool isKlockMeister();
   void printConfiguration();
+  // led
+  void turnOnLED();
+  void turnOffLED();
   // MIDI message methods
   void onNoteOn(byte channel, byte note, byte velocity);
   void onNoteOff(byte channel, byte note, byte velocity);
   void onControlChange(byte channel, byte control, byte value);
   void onClockTick();
   void onClockStart();
+  // movement handling
+  void changeMovement(int pMovementID);
+
 protected:
+  Playlist* mPlaylist = nullptr;
+  // configuration
   void setupDeviceParameters(String pMacAddress);
   String mMacAddress;
   int mMidiChannel;
   bool mKlockMeister;
+  // led
+  void setupLED();
+  const static int LED_DURATION_LOOP_CYCLES = 100;
+  int mLEDState = 0;
+  // movement handling
+  void sendChangeMovement(int pMovementID);
+  Movement* getMovement(int pMovementID);
+  Movement* mCurrentMovement = nullptr;
+  int mChangeMovementFromControlMessage;
+
 };
 
 

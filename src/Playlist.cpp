@@ -39,7 +39,7 @@ Playlist::~Playlist() {
 // Public Methods
 // ////////////////////////////////////////
 
-void Playlist::setParent(AutomaticOrchestra *pParent) {
+void Playlist::setParent(Orchestra* pParent) {
     mParent = pParent;
 }
 
@@ -84,7 +84,7 @@ void Playlist::populateMovementIDs() {
     mMovementIDs[0] = Movement::MOVEMENT_NULL;
 }
 
-AutomaticOrchestra* Playlist::parent() {
+Orchestra* Playlist::parent() {
     return mParent;
 }
 

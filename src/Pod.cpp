@@ -17,6 +17,7 @@
 */
 
 #include "Pod.h"
+#include "AutomaticOrchestra.h"
 
 void Pod::receiveNoteOn(byte channel, byte note, byte velocity) {
     //        Serial.printf("Pod::receiveNoteOn() -- channel: @i", channel);

@@ -20,26 +20,25 @@
 #define PLAYLIST_H
 
 #include <Arduino.h>
-#include "AutomaticOrchestra.h"
+#include "Orchestra.h"
 #include "Movement.h"
-
 
 //TODO add control message to go to next movement
 class Playlist {
 public:
     Playlist();
     ~Playlist();
-    void setParent(AutomaticOrchestra* pParent);
+    void setParent(Orchestra* pParent);
     Movement* getMovement(int pMovementID);
-    virtual uint8_t getNumberOfMovements();
+    uint8_t getNumberOfMovements();
 protected:
-    virtual Movement* createMovement(int pMovementID);
-    virtual void populateMovementIDs();
-    AutomaticOrchestra* parent();
+    Movement* createMovement(int pMovementID);
+    void populateMovementIDs();
+    Orchestra* parent();
     uint8_t nextMovementID(int pMovementID);
     int* mMovementIDs;
 private:
-    AutomaticOrchestra* mParent;
+    Orchestra* mParent;
     bool firstMovement;
 };
 
