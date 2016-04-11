@@ -27,10 +27,17 @@ class Orchestra
 public:
   Orchestra();
   ~Orchestra();
+  // configuration methods
   String getMacAddress();
   int getChannel();
   bool isKlockMeister();
   void printConfiguration();
+  // MIDI message methods
+  void onNoteOn(byte channel, byte note, byte velocity);
+  void onNoteOff(byte channel, byte note, byte velocity);
+  void onControlChange(byte channel, byte control, byte value);
+  void onClockTick();
+  void onClockStart();
 protected:
   void setupDeviceParameters(String pMacAddress);
   String mMacAddress;

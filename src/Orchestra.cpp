@@ -56,6 +56,26 @@ void Orchestra::printConfiguration() {
 }
 
 
+void Orchestra::onNoteOn(byte channel, byte note, byte velocity) {
+}
+
+
+void Orchestra::onNoteOff(byte channel, byte note, byte velocity) {
+}
+
+
+void Orchestra::onControlChange(byte channel, byte control, byte value) {
+}
+
+
+void Orchestra::onClockTick() {
+}
+
+
+void Orchestra::onClockStart() {
+}
+
+
 void Orchestra::setupDeviceParameters(String pMacAddress) {
     // save mac address
     mMacAddress = pMacAddress;
