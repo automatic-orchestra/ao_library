@@ -319,33 +319,29 @@ void MMidi::midiRealTimeHandler(uint8_t data) {
 
 void MMidi::clock()
 {
-    // quick hack to circumvent sequencer.
-    if(p_clockClickCallback != NULL){
-            (*p_clockClickCallback)();
-    }
-//    Sequencer.clock();
+  // execute callback
+  if(p_clockClickCallback != NULL){
+    (*p_clockClickCallback)();
+  }
 }
 
 
 void MMidi::start()
 {
-    // quick hack to circumvent sequencer.
-    if(p_clockStartCallback != NULL){
-            (*p_clockStartCallback)();
-    }
-//    Sequencer.start();
+  // execute callback
+  if(p_clockStartCallback != NULL){
+    (*p_clockStartCallback)();
+  }
 }
 
 
 void MMidi::continues()
 {
-//    Sequencer.continues();
 }
 
 
 void MMidi::stop()
 {
-//    Sequencer.stop();
 }
 
 
