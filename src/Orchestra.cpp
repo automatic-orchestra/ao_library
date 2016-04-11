@@ -44,6 +44,18 @@ bool Orchestra::isKlockMeister() {
 }
 
 
+void Orchestra::printConfiguration() {
+    Serial.println("----------------------------------");
+    Serial.println("       DEVICE CONFIGURATION       ");
+    Serial.println("----------------------------------");
+    Serial.print(" Mac Address:   ");
+    Serial.println(mMacAddress);
+    Serial.printf(" MIDI Channel:  %i\n", mMidiChannel);
+    Serial.printf(" Klock Meister: %i\n", mKlockMeister);
+    Serial.println("----------------------------------");
+}
+
+
 void Orchestra::setupDeviceParameters(String pMacAddress) {
     // save mac address
     mMacAddress = pMacAddress;

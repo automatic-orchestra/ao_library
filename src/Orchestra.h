@@ -30,6 +30,7 @@ public:
   String getMacAddress();
   int getChannel();
   bool isKlockMeister();
+  void printConfiguration();
 protected:
   void setupDeviceParameters(String pMacAddress);
   String mMacAddress;
