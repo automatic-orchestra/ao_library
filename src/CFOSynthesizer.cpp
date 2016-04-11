@@ -430,9 +430,6 @@ void MMusic::loadAllPresets()
 
 void MMusic::init()
 {
-	//TODO remove MIDI initialization
-	Midi.init();
-
 	for(uint8_t i=0; i<128; i++) {
 		instrument[i] = 0;
 		for(uint8_t p=0; p<MAX_PRESETS;p++) {
