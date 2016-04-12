@@ -49,11 +49,11 @@ public:
   void turnOnLED();
   void turnOffLED();
   // MIDI message methods
-  void onNoteOn(byte channel, byte note, byte velocity);
-  void onNoteOff(byte channel, byte note, byte velocity);
-  void onControlChange(byte channel, byte control, byte value);
-  void onClockTick();
-  void onClockStart();
+  virtual void onNoteOn(byte channel, byte note, byte velocity);
+  virtual void onNoteOff(byte channel, byte note, byte velocity);
+  virtual void onControlChange(byte channel, byte control, byte value);
+  virtual void onClockTick();
+  virtual void onClockStart();
   // movement handling
   virtual void changeMovement(int pMovementID);
 
