@@ -40,7 +40,7 @@ Orchestra::~Orchestra() {
 }
 
 
-void Orchestra::setupPlaylist(Playlist* pPlaylist) {
+void Orchestra::setPlaylist(Playlist* pPlaylist) {
     mPlaylist = pPlaylist;
     mPlaylist->setParent(this);
 }

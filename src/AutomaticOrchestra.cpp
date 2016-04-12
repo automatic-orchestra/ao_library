@@ -36,7 +36,7 @@
 AutomaticOrchestra::AutomaticOrchestra(Clock* pClock, Playlist* pPlaylist) : Orchestra(), mClock(pClock) {
     mCurrentMovement = 0;
     mChangeMovementFromControlMessage = Movement::MOVEMENT_DO_NOT_CHANGE;
-    setupPlaylist(pPlaylist);
+    setPlaylist(pPlaylist);
     setupDeviceParameters(MacAddress::get());
 }
 

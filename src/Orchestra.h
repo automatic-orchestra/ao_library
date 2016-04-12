@@ -21,6 +21,8 @@
 
 #include <Arduino.h>
 
+// Forward declaration of classes due to cross-linking between
+// this class and declared classes.
 class Movement;
 class Playlist;
 
@@ -35,7 +37,7 @@ public:
   Orchestra();
   ~Orchestra();
   // setup, start and update
-  void setupPlaylist(Playlist* pPlaylist);
+  void setPlaylist(Playlist* pPlaylist);
   void start();
   void update();
   // configuration methods
