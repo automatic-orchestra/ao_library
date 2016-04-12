@@ -25,6 +25,10 @@ class Movement;
 class Playlist;
 
 
+/*
+some methods nedd to be virtual so implementations of these functions
+in classes which inherit from this class are called!
+*/
 class Orchestra {
 
 public:
@@ -49,7 +53,7 @@ public:
   void onClockTick();
   void onClockStart();
   // movement handling
-  void changeMovement(int pMovementID);
+  virtual void changeMovement(int pMovementID);
 
 protected:
   Playlist* mPlaylist = nullptr;

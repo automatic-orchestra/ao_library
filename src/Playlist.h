@@ -24,16 +24,20 @@
 #include "Movement.h"
 
 //TODO add control message to go to next movement
+/*
+some methods nedd to be virtual so implementations of these functions
+in classes which inherit from this class are called!
+*/
 class Playlist {
 public:
     Playlist();
     ~Playlist();
     void setParent(Orchestra* pParent);
     Movement* getMovement(int pMovementID);
-    uint8_t getNumberOfMovements();
+    virtual uint8_t getNumberOfMovements();
 protected:
-    Movement* createMovement(int pMovementID);
-    void populateMovementIDs();
+    virtual Movement* createMovement(int pMovementID);
+    virtual void populateMovementIDs();
     Orchestra* parent();
     uint8_t nextMovementID(int pMovementID);
     int* mMovementIDs;
