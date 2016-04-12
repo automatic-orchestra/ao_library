@@ -55,6 +55,16 @@ void Orchestra::start() {
 
 
 void Orchestra::update() {
+    // check if movement is finished
+    if (mCurrentMovement) {
+        mCurrentMovement->loop();
+        int mState = mCurrentMovement->isFinished();
+        if (mState != Movement::MOVEMENT_DO_NOT_CHANGE) {
+            sendChangeMovement(mState);
+            delete mCurrentMovement;
+            mCurrentMovement = nullptr;
+        }
+    }
     // change movement from control message
     if (mChangeMovementFromControlMessage != Movement::MOVEMENT_DO_NOT_CHANGE) {
         changeMovement(mChangeMovementFromControlMessage);
