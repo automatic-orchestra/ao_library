@@ -144,6 +144,9 @@ void Orchestra::onControlChange(byte channel, byte control, byte value) {
     // forward messages to movement
     if (mCurrentMovement) {
         mCurrentMovement->onControlChange(channel, control, value);
+    } else {
+        // default for passing on midi control change when there is no movement created yet.
+        Midi.sendController(channel, control, value);
     }
 }
 
